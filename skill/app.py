@@ -222,7 +222,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
         logger.debug('In LaunchRequestHandler')
 
         connection.ping()
-        speech = sanitise_speech_output('Ready!')
+        speech = sanitise_speech_output('Sonic is ready!')
 
         handler_input.response_builder.speak(speech).ask(speech)
         return handler_input.response_builder.response
@@ -311,7 +311,7 @@ class NaviSonicPlayMusicByArtist(AbstractRequestHandler):
         artist_lookup = connection.search_artist(artist.value)
 
         if artist_lookup is None:
-            text = sanitise_speech_output(f"I couldn't find the artist {artist.value} in the collection.")
+            text = sanitise_speech_output(f"I couldn't find the artist {artist.value} in your library.")
             handler_input.response_builder.speak(text).ask(text)
 
             return handler_input.response_builder.response
@@ -328,7 +328,7 @@ class NaviSonicPlayMusicByArtist(AbstractRequestHandler):
             backgroundProcess = Process(target=queue_worker_thread, args=(connection, play_queue, song_id_list[2:]))  # Create a thread to enqueue the remaining tracks
             backgroundProcess.start()  # Start the additional thread
 
-            speech = sanitise_speech_output(f'Playing music by: {artist.value}')
+            speech = sanitise_speech_output(f'Playing music by: {artist.value} from your Sonic library')
             logger.info(speech)
 
             card = {'title': 'AskNavidrome',
@@ -371,7 +371,7 @@ class NaviSonicPlayAlbumByArtist(AbstractRequestHandler):
             artist_lookup = connection.search_artist(artist.value)
 
             if artist_lookup is None:
-                text = sanitise_speech_output(f"I couldn't find the artist {artist.value} in the collection.")
+                text = sanitise_speech_output(f"I couldn't find the artist {artist.value} in your library.")
                 handler_input.response_builder.speak(text).ask(text)
 
                 return handler_input.response_builder.response
@@ -384,7 +384,7 @@ class NaviSonicPlayAlbumByArtist(AbstractRequestHandler):
                 result = [album_result for album_result in artist_album_lookup if album_result.get('name').lower() == album.value.lower()]
 
                 if not result:
-                    text = sanitise_speech_output(f"I couldn't find an album called {album.value} by {artist.value} in the collection.")
+                    text = sanitise_speech_output(f"I couldn't find an album called {album.value} by {artist.value} in your library.")
                     handler_input.response_builder.speak(text).ask(text)
 
                     return handler_input.response_builder.response
@@ -398,7 +398,7 @@ class NaviSonicPlayAlbumByArtist(AbstractRequestHandler):
                 backgroundProcess = Process(target=queue_worker_thread, args=(connection, play_queue, song_id_list[2:]))  # Create a thread to enqueue the remaining tracks
                 backgroundProcess.start()  # Start the additional thread
 
-                speech = sanitise_speech_output(f'Playing {album.value} by: {artist.value}')
+                speech = sanitise_speech_output(f'Playing {album.value} by: {artist.value} from your Sonic library')
                 logger.info(speech)
                 card = {'title': 'AskNavidrome',
                         'text': speech
@@ -414,7 +414,7 @@ class NaviSonicPlayAlbumByArtist(AbstractRequestHandler):
             result = connection.search_album(album.value)
 
             if result is None:
-                text = sanitise_speech_output(f"I couldn't find the album {album.value} in the collection.")
+                text = sanitise_speech_output(f"I couldn't find the album {album.value} in your library.")
                 handler_input.response_builder.speak(text).ask(text)
 
                 return handler_input.response_builder.response
@@ -428,7 +428,7 @@ class NaviSonicPlayAlbumByArtist(AbstractRequestHandler):
                 backgroundProcess = Process(target=queue_worker_thread, args=(connection, play_queue, song_id_list[2:]))  # Create a thread to enqueue the remaining tracks
                 backgroundProcess.start()  # Start the additional thread
 
-                speech = sanitise_speech_output(f'Playing {album.value}')
+                speech = sanitise_speech_output(f'Playing {album.value} from your Sonic library')
                 logger.info(speech)
                 card = {'title': 'AskNavidrome',
                         'text': speech
@@ -461,7 +461,7 @@ class NaviSonicPlaySongByArtist(AbstractRequestHandler):
         artist_lookup = connection.search_artist(artist.value)
 
         if artist_lookup is None:
-            text = sanitise_speech_output(f"I couldn't find the artist {artist.value} in the collection.")
+            text = sanitise_speech_output(f"I couldn't find the artist {artist.value} in your library.")
             handler_input.response_builder.speak(text).ask(text)
 
             return handler_input.response_builder.response
@@ -476,7 +476,7 @@ class NaviSonicPlaySongByArtist(AbstractRequestHandler):
             song_dets = [item.get('id') for item in song_list if item.get('artistId') == artist_id]
 
             if not song_dets:
-                text = sanitise_speech_output(f"I couldn't find a song called {song.value} by {artist.value} in the collection.")
+                text = sanitise_speech_output(f"I couldn't find a song called {song.value} by {artist.value} in your library.")
                 handler_input.response_builder.speak(text).ask(text)
 
                 return handler_input.response_builder.response
@@ -484,7 +484,7 @@ class NaviSonicPlaySongByArtist(AbstractRequestHandler):
             play_queue.clear()
             controller.enqueue_songs(connection, play_queue, song_dets)
 
-            speech = sanitise_speech_output(f'Playing {song.value} by {artist.value}')
+            speech = sanitise_speech_output(f'Playing {song.value} by {artist.value} from your sonic library')
             logger.info(speech)
             card = {'title': 'AskNavidrome',
                     'text': speech
@@ -519,7 +519,7 @@ class NaviSonicPlaySong(AbstractRequestHandler):
         song_dets = [item.get('id') for item in song_list]
 
         if not song_dets:
-            text = sanitise_speech_output(f"I couldn't find a song called {song.value} in the collection.")
+            text = sanitise_speech_output(f"I couldn't find a song called {song.value} in your library.")
             handler_input.response_builder.speak(text).ask(text)
 
             return handler_input.response_builder.response
@@ -527,7 +527,7 @@ class NaviSonicPlaySong(AbstractRequestHandler):
         play_queue.clear()
         controller.enqueue_songs(connection, play_queue, song_dets)
 
-        speech = sanitise_speech_output(f'Playing {song.value}')
+        speech = sanitise_speech_output(f'Playing {song.value} from your Sonic library')
         logger.info(speech)
         card = {'title': 'AskNavidrome',
                 'text': speech
@@ -562,7 +562,7 @@ class NaviSonicPlayPlaylist(AbstractRequestHandler):
         playlist_id = connection.search_playlist(playlist.value)
 
         if playlist_id is None:
-            text = sanitise_speech_output("I couldn't find the playlist " + str(playlist.value) + ' in the collection.')
+            text = sanitise_speech_output("I couldn't find the playlist " + str(playlist.value) + ' in your library.')
             handler_input.response_builder.speak(text).ask(text)
 
             return handler_input.response_builder.response
@@ -576,7 +576,7 @@ class NaviSonicPlayPlaylist(AbstractRequestHandler):
             backgroundProcess = Process(target=queue_worker_thread, args=(connection, play_queue, song_id_list[2:]))  # Create a thread to enqueue the remaining tracks
             backgroundProcess.start()  # Start the additional thread
 
-            speech = sanitise_speech_output('Playing playlist ' + str(playlist.value))
+            speech = sanitise_speech_output(f'Playing your {playlist.value} playlist from your Sonic library')
             logger.info(speech)
             card = {'title': 'AskNavidrome',
                     'text': speech
@@ -611,7 +611,7 @@ class NaviSonicPlayMusicByGenre(AbstractRequestHandler):
         song_id_list = connection.build_song_list_from_genre(genre.value, min_song_count)
 
         if song_id_list is None:
-            text = sanitise_speech_output(f"I couldn't find any {genre.value} songs in the collection.")
+            text = sanitise_speech_output(f"I couldn't find any {genre.value} songs in your library.")
             handler_input.response_builder.speak(text).ask(text)
 
             return handler_input.response_builder.response
@@ -625,7 +625,7 @@ class NaviSonicPlayMusicByGenre(AbstractRequestHandler):
             backgroundProcess = Process(target=queue_worker_thread, args=(connection, play_queue, song_id_list[2:]))  # Create a thread to enqueue the remaining tracks
             backgroundProcess.start()  # Start the additional thread
 
-            speech = sanitise_speech_output(f'Playing {genre.value} music')
+            speech = sanitise_speech_output(f'Playing {genre.value} music from your Sonic library')
             logger.info(speech)
             card = {'title': 'AskNavidrome',
                     'text': speech
@@ -657,7 +657,7 @@ class NaviSonicPlayMusicRandom(AbstractRequestHandler):
         song_id_list = connection.build_random_song_list(min_song_count)
 
         if song_id_list is None:
-            text = sanitise_speech_output("I couldn't find any songs in the collection.")
+            text = sanitise_speech_output("I couldn't find any songs in your library.")
             handler_input.response_builder.speak(text).ask(text)
 
             return handler_input.response_builder.response
@@ -671,7 +671,7 @@ class NaviSonicPlayMusicRandom(AbstractRequestHandler):
             backgroundProcess = Process(target=queue_worker_thread, args=(connection, play_queue, song_id_list[2:]))  # Create a thread to enqueue the remaining tracks
             backgroundProcess.start()  # Start the additional thread
 
-            speech = sanitise_speech_output('Playing random music')
+            speech = sanitise_speech_output('Playing random music from your Sonic library')
             logger.info(speech)
             card = {'title': 'AskNavidrome',
                     'text': speech
@@ -703,7 +703,7 @@ class NaviSonicPlayFavouriteSongs(AbstractRequestHandler):
         song_id_list = connection.build_song_list_from_favourites()
 
         if song_id_list is None:
-            text = sanitise_speech_output("You don't have any favourite songs in the collection.")
+            text = sanitise_speech_output("You don't have any favourite songs in your library.")
             handler_input.response_builder.speak(text).ask(text)
 
             return handler_input.response_builder.response
@@ -717,7 +717,7 @@ class NaviSonicPlayFavouriteSongs(AbstractRequestHandler):
             backgroundProcess = Process(target=queue_worker_thread, args=(connection, play_queue, song_id_list[2:]))  # Create a thread to enqueue the remaining tracks
             backgroundProcess.start()  # Start the additional thread
 
-            speech = sanitise_speech_output('Playing your favourite tracks.')
+            speech = sanitise_speech_output('Playing your favourite tracks from your Sonic library.')
             logger.info(speech)
             card = {'title': 'AskNavidrome',
                     'text': speech
