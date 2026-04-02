@@ -15,37 +15,41 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=06afa432" />
     <link rel="stylesheet" href="../_static/css/functions.css" type="text/css" />
   
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="_static/documentation_options.js?v=3e145956"></script>
-    <script src="_static/doctools.js?v=9bcbadda"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -61,19 +65,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -81,7 +74,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -89,8 +81,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -108,7 +100,8 @@
       
         
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -138,15 +131,11 @@
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -156,9 +145,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -208,7 +202,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -222,24 +216,16 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
+</button>
 
 </div></div>
       
@@ -277,10 +263,8 @@ document.write(`
  | <a href="#H"><strong>H</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
- | <a href="#N"><strong>N</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#Q"><strong>Q</strong></a>
- | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
@@ -293,17 +277,10 @@ document.write(`
 </li>
       <li><a href="index.html#asknavidrome.media_queue.MediaQueue.add_track">add_track() (asknavidrome.media_queue.MediaQueue method)</a>
 </li>
-      <li><a href="index.html#asknavidrome.subsonic_api.SubsonicConnection.albums_by_artist">albums_by_artist() (asknavidrome.subsonic_api.SubsonicConnection method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
-    app
-
-      <ul>
-        <li><a href="index.html#module-app">module</a>
+      <li><a href="index.html#asknavidrome.subsonic_api.SubsonicConnection.albums_by_artist">albums_by_artist() (asknavidrome.subsonic_api.SubsonicConnection method)</a>
 </li>
-      </ul></li>
       <li>
     asknavidrome.controller
 
@@ -337,66 +314,10 @@ document.write(`
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="index.html#app.CheckAudioInterfaceHandler.can_handle">can_handle() (app.CheckAudioInterfaceHandler method)</a>
-
-      <ul>
-        <li><a href="index.html#app.GeneralExceptionHandler.can_handle">(app.GeneralExceptionHandler method)</a>
-</li>
-        <li><a href="index.html#app.HelpHandler.can_handle">(app.HelpHandler method)</a>
-</li>
-        <li><a href="index.html#app.LaunchRequestHandler.can_handle">(app.LaunchRequestHandler method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicPlayAlbumByArtist.can_handle">(app.NaviSonicPlayAlbumByArtist method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicPlayFavouriteSongs.can_handle">(app.NaviSonicPlayFavouriteSongs method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicPlayMusicByArtist.can_handle">(app.NaviSonicPlayMusicByArtist method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicPlayMusicByGenre.can_handle">(app.NaviSonicPlayMusicByGenre method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicPlayMusicRandom.can_handle">(app.NaviSonicPlayMusicRandom method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicPlayPlaylist.can_handle">(app.NaviSonicPlayPlaylist method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicPlaySongByArtist.can_handle">(app.NaviSonicPlaySongByArtist method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicRandomiseQueue.can_handle">(app.NaviSonicRandomiseQueue method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicSongDetails.can_handle">(app.NaviSonicSongDetails method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicStarSong.can_handle">(app.NaviSonicStarSong method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicUnstarSong.can_handle">(app.NaviSonicUnstarSong method)</a>
-</li>
-        <li><a href="index.html#app.NextPlaybackHandler.can_handle">(app.NextPlaybackHandler method)</a>
-</li>
-        <li><a href="index.html#app.PausePlaybackHandler.can_handle">(app.PausePlaybackHandler method)</a>
-</li>
-        <li><a href="index.html#app.PlaybackFailedEventHandler.can_handle">(app.PlaybackFailedEventHandler method)</a>
-</li>
-        <li><a href="index.html#app.PlaybackFinishedHandler.can_handle">(app.PlaybackFinishedHandler method)</a>
-</li>
-        <li><a href="index.html#app.PlaybackNearlyFinishedHandler.can_handle">(app.PlaybackNearlyFinishedHandler method)</a>
-</li>
-        <li><a href="index.html#app.PlaybackStartedHandler.can_handle">(app.PlaybackStartedHandler method)</a>
-</li>
-        <li><a href="index.html#app.PlaybackStoppedHandler.can_handle">(app.PlaybackStoppedHandler method)</a>
-</li>
-        <li><a href="index.html#app.PreviousPlaybackHandler.can_handle">(app.PreviousPlaybackHandler method)</a>
-</li>
-        <li><a href="index.html#app.ResumePlaybackHandler.can_handle">(app.ResumePlaybackHandler method)</a>
-</li>
-        <li><a href="index.html#app.SkillEventHandler.can_handle">(app.SkillEventHandler method)</a>
-</li>
-        <li><a href="index.html#app.SystemExceptionHandler.can_handle">(app.SystemExceptionHandler method)</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="index.html#app.CheckAudioInterfaceHandler">CheckAudioInterfaceHandler (class in app)</a>
-</li>
       <li><a href="index.html#asknavidrome.media_queue.MediaQueue.clear">clear() (asknavidrome.media_queue.MediaQueue method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="index.html#asknavidrome.media_queue.MediaQueue.current_track">current_track (asknavidrome.media_queue.MediaQueue attribute)</a>
 </li>
   </ul></td>
@@ -417,8 +338,6 @@ document.write(`
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="index.html#app.GeneralExceptionHandler">GeneralExceptionHandler (class in app)</a>
-</li>
       <li><a href="index.html#asknavidrome.media_queue.MediaQueue.get_buffer">get_buffer() (asknavidrome.media_queue.MediaQueue method)</a>
 </li>
       <li><a href="index.html#asknavidrome.media_queue.MediaQueue.get_current_queue">get_current_queue() (asknavidrome.media_queue.MediaQueue method)</a>
@@ -427,10 +346,10 @@ document.write(`
 </li>
       <li><a href="index.html#asknavidrome.media_queue.MediaQueue.get_history">get_history() (asknavidrome.media_queue.MediaQueue method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="index.html#asknavidrome.media_queue.MediaQueue.get_history_count">get_history_count() (asknavidrome.media_queue.MediaQueue method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="index.html#asknavidrome.media_queue.MediaQueue.get_next_track">get_next_track() (asknavidrome.media_queue.MediaQueue method)</a>
 </li>
       <li><a href="index.html#asknavidrome.media_queue.MediaQueue.get_previous_track">get_previous_track() (asknavidrome.media_queue.MediaQueue method)</a>
@@ -447,64 +366,6 @@ document.write(`
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="index.html#app.CheckAudioInterfaceHandler.handle">handle() (app.CheckAudioInterfaceHandler method)</a>
-
-      <ul>
-        <li><a href="index.html#app.GeneralExceptionHandler.handle">(app.GeneralExceptionHandler method)</a>
-</li>
-        <li><a href="index.html#app.HelpHandler.handle">(app.HelpHandler method)</a>
-</li>
-        <li><a href="index.html#app.LaunchRequestHandler.handle">(app.LaunchRequestHandler method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicPlayAlbumByArtist.handle">(app.NaviSonicPlayAlbumByArtist method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicPlayFavouriteSongs.handle">(app.NaviSonicPlayFavouriteSongs method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicPlayMusicByArtist.handle">(app.NaviSonicPlayMusicByArtist method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicPlayMusicByGenre.handle">(app.NaviSonicPlayMusicByGenre method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicPlayMusicRandom.handle">(app.NaviSonicPlayMusicRandom method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicPlayPlaylist.handle">(app.NaviSonicPlayPlaylist method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicPlaySongByArtist.handle">(app.NaviSonicPlaySongByArtist method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicRandomiseQueue.handle">(app.NaviSonicRandomiseQueue method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicSongDetails.handle">(app.NaviSonicSongDetails method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicStarSong.handle">(app.NaviSonicStarSong method)</a>
-</li>
-        <li><a href="index.html#app.NaviSonicUnstarSong.handle">(app.NaviSonicUnstarSong method)</a>
-</li>
-        <li><a href="index.html#app.NextPlaybackHandler.handle">(app.NextPlaybackHandler method)</a>
-</li>
-        <li><a href="index.html#app.PausePlaybackHandler.handle">(app.PausePlaybackHandler method)</a>
-</li>
-        <li><a href="index.html#app.PlaybackFailedEventHandler.handle">(app.PlaybackFailedEventHandler method)</a>
-</li>
-        <li><a href="index.html#app.PlaybackFinishedHandler.handle">(app.PlaybackFinishedHandler method)</a>
-</li>
-        <li><a href="index.html#app.PlaybackNearlyFinishedHandler.handle">(app.PlaybackNearlyFinishedHandler method)</a>
-</li>
-        <li><a href="index.html#app.PlaybackStartedHandler.handle">(app.PlaybackStartedHandler method)</a>
-</li>
-        <li><a href="index.html#app.PlaybackStoppedHandler.handle">(app.PlaybackStoppedHandler method)</a>
-</li>
-        <li><a href="index.html#app.PreviousPlaybackHandler.handle">(app.PreviousPlaybackHandler method)</a>
-</li>
-        <li><a href="index.html#app.ResumePlaybackHandler.handle">(app.ResumePlaybackHandler method)</a>
-</li>
-        <li><a href="index.html#app.SkillEventHandler.handle">(app.SkillEventHandler method)</a>
-</li>
-        <li><a href="index.html#app.SystemExceptionHandler.handle">(app.SystemExceptionHandler method)</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="index.html#app.HelpHandler">HelpHandler (class in app)</a>
-</li>
       <li><a href="index.html#asknavidrome.media_queue.MediaQueue.history">history (asknavidrome.media_queue.MediaQueue attribute)</a>
 </li>
   </ul></td>
@@ -513,15 +374,7 @@ document.write(`
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="index.html#app.LaunchRequestHandler">LaunchRequestHandler (class in app)</a>
-</li>
       <li><a href="index.html#asknavidrome.media_queue.MediaQueue.logger">logger (asknavidrome.media_queue.MediaQueue attribute)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="index.html#app.LoggingRequestInterceptor">LoggingRequestInterceptor (class in app)</a>
-</li>
-      <li><a href="index.html#app.LoggingResponseInterceptor">LoggingResponseInterceptor (class in app)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -531,77 +384,23 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="index.html#asknavidrome.media_queue.MediaQueue">MediaQueue (class in asknavidrome.media_queue)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     module
 
       <ul>
-        <li><a href="index.html#module-app">app</a>
-</li>
         <li><a href="index.html#module-asknavidrome.controller">asknavidrome.controller</a>
 </li>
       </ul></li>
   </ul></td>
 </tr></table>
 
-<h2 id="N">N</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="index.html#app.NaviSonicPlayAlbumByArtist">NaviSonicPlayAlbumByArtist (class in app)</a>
-</li>
-      <li><a href="index.html#app.NaviSonicPlayFavouriteSongs">NaviSonicPlayFavouriteSongs (class in app)</a>
-</li>
-      <li><a href="index.html#app.NaviSonicPlayMusicByArtist">NaviSonicPlayMusicByArtist (class in app)</a>
-</li>
-      <li><a href="index.html#app.NaviSonicPlayMusicByGenre">NaviSonicPlayMusicByGenre (class in app)</a>
-</li>
-      <li><a href="index.html#app.NaviSonicPlayMusicRandom">NaviSonicPlayMusicRandom (class in app)</a>
-</li>
-      <li><a href="index.html#app.NaviSonicPlayPlaylist">NaviSonicPlayPlaylist (class in app)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="index.html#app.NaviSonicPlaySongByArtist">NaviSonicPlaySongByArtist (class in app)</a>
-</li>
-      <li><a href="index.html#app.NaviSonicRandomiseQueue">NaviSonicRandomiseQueue (class in app)</a>
-</li>
-      <li><a href="index.html#app.NaviSonicSongDetails">NaviSonicSongDetails (class in app)</a>
-</li>
-      <li><a href="index.html#app.NaviSonicStarSong">NaviSonicStarSong (class in app)</a>
-</li>
-      <li><a href="index.html#app.NaviSonicUnstarSong">NaviSonicUnstarSong (class in app)</a>
-</li>
-      <li><a href="index.html#app.NextPlaybackHandler">NextPlaybackHandler (class in app)</a>
-</li>
-  </ul></td>
-</tr></table>
-
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="index.html#app.PausePlaybackHandler">PausePlaybackHandler (class in app)</a>
-</li>
       <li><a href="index.html#asknavidrome.subsonic_api.SubsonicConnection.ping">ping() (asknavidrome.subsonic_api.SubsonicConnection method)</a>
 </li>
-      <li><a href="index.html#app.PlaybackFailedEventHandler">PlaybackFailedEventHandler (class in app)</a>
-</li>
-      <li><a href="index.html#app.PlaybackFinishedHandler">PlaybackFinishedHandler (class in app)</a>
-</li>
-      <li><a href="index.html#app.PlaybackNearlyFinishedHandler">PlaybackNearlyFinishedHandler (class in app)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="index.html#app.PlaybackStartedHandler">PlaybackStartedHandler (class in app)</a>
-</li>
-      <li><a href="index.html#app.PlaybackStoppedHandler">PlaybackStoppedHandler (class in app)</a>
-</li>
-      <li><a href="index.html#app.PreviousPlaybackHandler">PreviousPlaybackHandler (class in app)</a>
-</li>
-      <li><a href="index.html#app.LoggingRequestInterceptor.process">process() (app.LoggingRequestInterceptor method)</a>
-
-      <ul>
-        <li><a href="index.html#app.LoggingResponseInterceptor.process">(app.LoggingResponseInterceptor method)</a>
-</li>
-      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -611,25 +410,11 @@ document.write(`
       <li><a href="index.html#asknavidrome.media_queue.MediaQueue.queue">queue (asknavidrome.media_queue.MediaQueue attribute)</a>
 </li>
   </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="index.html#app.queue_worker_thread">queue_worker_thread() (in module app)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="R">R</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="index.html#app.ResumePlaybackHandler">ResumePlaybackHandler (class in app)</a>
-</li>
-  </ul></td>
 </tr></table>
 
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="index.html#app.sanitise_speech_output">sanitise_speech_output() (in module app)</a>
-</li>
       <li><a href="index.html#asknavidrome.subsonic_api.SubsonicConnection.scrobble">scrobble() (asknavidrome.subsonic_api.SubsonicConnection method)</a>
 </li>
       <li><a href="index.html#asknavidrome.subsonic_api.SubsonicConnection.search_album">search_album() (asknavidrome.subsonic_api.SubsonicConnection method)</a>
@@ -646,8 +431,6 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="index.html#asknavidrome.media_queue.MediaQueue.shuffle">shuffle() (asknavidrome.media_queue.MediaQueue method)</a>
 </li>
-      <li><a href="index.html#app.SkillEventHandler">SkillEventHandler (class in app)</a>
-</li>
       <li><a href="index.html#asknavidrome.subsonic_api.SubsonicConnection.star_entry">star_entry() (asknavidrome.subsonic_api.SubsonicConnection method)</a>
 </li>
       <li><a href="index.html#asknavidrome.controller.start_playback">start_playback() (in module asknavidrome.controller)</a>
@@ -657,8 +440,6 @@ document.write(`
       <li><a href="index.html#asknavidrome.subsonic_api.SubsonicConnection">SubsonicConnection (class in asknavidrome.subsonic_api)</a>
 </li>
       <li><a href="index.html#asknavidrome.media_queue.MediaQueue.sync">sync() (asknavidrome.media_queue.MediaQueue method)</a>
-</li>
-      <li><a href="index.html#app.SystemExceptionHandler">SystemExceptionHandler (class in app)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -741,8 +522,8 @@ By Ross Stewart
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>
